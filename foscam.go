@@ -1,9 +1,11 @@
 package foscam
+
 import (
 	"net/http"
 	"strings"
 	"encoding/xml"
 	"errors"
+	"strconv"
 )
 
 const basePath string = "/cgi-bin/CGIProxy.fcgi"
@@ -16,7 +18,11 @@ func request(c Credentials, params map[string]string) (*http.Response, error) {
 	for key, value := range params {
 		paramsArr = append(paramsArr, key + "=" + value)
 	}
-	return http.Get("http://" + c.Hostname + basePath + "?" + strings.Join(paramsArr, "&"))
+	res, err := http.Get("http://" + c.Hostname + basePath + "?" + strings.Join(paramsArr, "&"))
+	if err == nil && res.StatusCode != 200 {
+		return res, errors.New("Bad Resposne Code, " + strconv.Itoa(res.StatusCode))
+	}
+	return res, err
 }
 
 type CGIResult struct {
