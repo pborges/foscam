@@ -6,6 +6,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"strconv"
+	"net/url"
 )
 
 const basePath string = "/cgi-bin/CGIProxy.fcgi"
@@ -16,9 +17,11 @@ func request(c Credentials, params map[string]string) (*http.Response, error) {
 	params["pwd"] = c.Password
 
 	for key, value := range params {
-		paramsArr = append(paramsArr, key + "=" + value)
+		paramsArr = append(paramsArr, key + "=" + url.QueryEscape(value))
 	}
-	res, err := http.Get("http://" + c.Hostname + basePath + "?" + strings.Join(paramsArr, "&"))
+	url := "http://" + c.Hostname + basePath + "?" + strings.Join(paramsArr, "&")
+	DebugLog.Printf("GET %s\n", url)
+	res, err := http.Get(url)
 	if err == nil && res.StatusCode != 200 {
 		return res, errors.New("Bad Resposne Code, " + strconv.Itoa(res.StatusCode))
 	}
