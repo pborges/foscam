@@ -3,13 +3,17 @@ package foscam
 import (
 	"encoding/xml"
 	"strconv"
-	"io/ioutil"
 )
 
 const (
 	FtpModePasv int = 0
 	FtpModePort int = 1
 )
+
+type FtpTestResult struct {
+	CGIResult
+	TestResult int `xml:"testResult"`
+}
 
 type FtpSettings struct {
 	CGIResult
@@ -49,6 +53,8 @@ func SetFtpConfig(c Credentials, settings FtpSettings) (err error) {
 		return
 	}
 	defer res.Body.Close()
+	result := new(DeviceInfo)
+	xml.NewDecoder(res.Body).Decode(result)
 	return
 }
 
@@ -66,10 +72,12 @@ func TestFtpServer(c Credentials, settings FtpSettings) (ok bool, err error) {
 		return
 	}
 	defer res.Body.Close()
-	result, err := ioutil.ReadAll(res.Body)
+	result := new(FtpTestResult)
+	xml.NewDecoder(res.Body).Decode(result)
+	ok, err = result.Success()
 	if err != nil {
 		return
 	}
-	ok = (string(result) == "0")
+	ok = result.TestResult == 0
 	return
 }
