@@ -6,12 +6,12 @@ import (
 
 type DeviceInfo struct {
 	CGIResult
-	ProductName  string `xml:"productName"`
-	SerialNumber string `xml:"serialNo"`
-	DeviceName   string `xml:"devName"`
-	MacAddress   string `xml:"mac"`
-	Year         string `xml:"year"`
-	Month        string `xml:"mon"`
+	ProductName  string `xml:"productName" json:"productName"`
+	SerialNumber string `xml:"serialNo" json:"serialNo"`
+	DeviceName   string `xml:"devName" json:"devName"`
+	MacAddress   string `xml:"mac" json:"mac"`
+	Year         string `xml:"year" json:"year"`
+	Month        string `xml:"mon" json:"mon"`
 }
 
 func SetDevName(c Credentials, name string) (err error) {
@@ -66,6 +66,7 @@ func GetDevInfo(c Credentials) (info *DeviceInfo, err error) {
 	defer res.Body.Close()
 	info = new(DeviceInfo)
 	xml.NewDecoder(res.Body).Decode(info)
+	_, err = info.Success()
 	return
 }
 

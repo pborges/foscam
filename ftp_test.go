@@ -26,11 +26,10 @@ func TestSetFtpConfig(t *testing.T) {
 	}
 
 	err = SetFtpConfig(c, FtpSettings{
-		Address:"127.0.0.1",
-		Port:21,
-		Mode:FtpModePasv,
-		UserName:"test_user",
-		Password:"test_pass",
+		Address:"ftp://m4800/",
+		Port:2121,
+		Mode:FtpModePort,
+		UserName:"camera1",
 	})
 	if err != nil {
 		t.Fatal(err)

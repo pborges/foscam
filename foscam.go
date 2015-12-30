@@ -23,14 +23,14 @@ func request(c Credentials, params map[string]string) (*http.Response, error) {
 	DebugLog.Printf("GET %s\n", url)
 	res, err := http.Get(url)
 	if err == nil && res.StatusCode != 200 {
-		return res, errors.New("Bad Resposne Code, " + strconv.Itoa(res.StatusCode))
+		return res, errors.New("Bad Response Code, " + strconv.Itoa(res.StatusCode))
 	}
 	return res, err
 }
 
 type CGIResult struct {
-	XMLName xml.Name `xml:"CGI_Result"`
-	Result  int `xml:"result"`
+	XMLName xml.Name `xml:"CGI_Result" json:"-"`
+	Result  int `xml:"result"  json:"result"`
 }
 
 func (c CGIResult) Success() (ok bool, err error) {

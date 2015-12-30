@@ -36,6 +36,7 @@ func GetFtpConfig(c Credentials) (settings *FtpSettings, err error) {
 	defer res.Body.Close()
 	settings = new(FtpSettings)
 	xml.NewDecoder(res.Body).Decode(settings)
+	_, err = settings.Success()
 	return
 }
 
@@ -55,6 +56,7 @@ func SetFtpConfig(c Credentials, settings FtpSettings) (err error) {
 	defer res.Body.Close()
 	result := new(DeviceInfo)
 	xml.NewDecoder(res.Body).Decode(result)
+	_, err = result.Success()
 	return
 }
 

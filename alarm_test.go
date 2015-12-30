@@ -21,9 +21,9 @@ func TestSetAlarmRecordConfig(t *testing.T) {
 	}
 
 	err = SetAlarmRecordConfig(c, AlarmRecordConfig{
-		IsEnablePreRecord:0,
+		IsEnablePreRecord:1,
 		PreRecordSecs:1,
-		AlarmRecordSeconds:20,
+		AlarmRecordSeconds:10,
 	})
 	if err != nil {
 		t.Fatal(err)
