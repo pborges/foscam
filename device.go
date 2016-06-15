@@ -70,7 +70,5 @@ func GetDevInfo(c Credentials) (info *DeviceInfo, err error) {
 	return
 }
 
-//ToDo: SetSystemTime
-//ToDo: GetSystemTime
 //ToDo: getOSDSetting
 //ToDo: SetOSDSetting
