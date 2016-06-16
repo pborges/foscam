@@ -5,6 +5,10 @@ import (
 	"strconv"
 )
 
+const TimeDateFormatYYYYMMDD = "YYYY-MM-DD"
+const TimeDateFormatDDMMYYYY = "DD/MM/YYYY"
+const TimeDateFormatMMDDYYYY = "MM/DD/YYYY"
+
 func SetSystemTimeNTP(c Credentials, dateFormat string, ntpServer string, timeZoneOffset int, use24hour bool, dst bool) (err error) {
 	params := make(map[string]string)
 	params["cmd"] = "setSystemTime"
@@ -40,7 +44,3 @@ func SetSystemTimeNTP(c Credentials, dateFormat string, ntpServer string, timeZo
 }
 //ToDo: GetSystemTime
 
-
-const TimeDateFormatYYYYMMDD = "YYYY-MM-DD"
-const TimeDateFormatDDMMYYYY = "DD/MM/YYYY"
-const TimeDateFormatMMDDYYYY = "MM/DD/YYYY"
